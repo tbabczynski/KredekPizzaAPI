@@ -32,6 +32,19 @@ namespace JakubKalinaLab7.Controllers
             return Ok(pizzas);
         }
 
+        [HttpGet, Route("order/{id}")]
+        public IActionResult Order([FromRoute] string id)
+        {
+            Pizza pizza = _pizzaService.Get(id);
+
+            if (pizza is null)
+                return BadRequest();
+            else
+            {
+                return Ok(pizza);
+            }
+        }
+
         /// <summary>
         /// Dodaje nową pizzę
         /// </summary>

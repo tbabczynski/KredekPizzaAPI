@@ -76,5 +76,15 @@ namespace JakubKalinaLab7.Services
             pizzas.Remove(pizzaToDelete);
             return true;
         }
+
+        public Pizza Get(string id)
+        {
+            foreach (var pizza in pizzas)
+            {
+                if (pizza.Id == int.Parse(id))
+                    return pizza;
+            }
+            return null;
+        }
     }
 }

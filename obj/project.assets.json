@@ -8,23 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Jakub\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\tb\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jakub\\source\\repos\\JakubKalinaLab7\\JakubKalinaLab7.csproj",
+      "projectUniqueName": "C:\\Users\\tb\\Documents\\Visual Studio 2019\\projects\\KredekPizzaAPI\\JakubKalinaLab7.csproj",
       "projectName": "JakubKalinaLab7",
-      "projectPath": "C:\\Users\\Jakub\\source\\repos\\JakubKalinaLab7\\JakubKalinaLab7.csproj",
-      "packagesPath": "C:\\Users\\Jakub\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jakub\\source\\repos\\JakubKalinaLab7\\obj\\",
+      "projectPath": "C:\\Users\\tb\\Documents\\Visual Studio 2019\\projects\\KredekPizzaAPI\\JakubKalinaLab7.csproj",
+      "packagesPath": "C:\\Users\\tb\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tb\\Documents\\Visual Studio 2019\\projects\\KredekPizzaAPI\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Jakub\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tb\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -36,6 +32,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -47,6 +44,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "imports": [
           "net461",
           "net462",
@@ -65,7 +63,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -35,6 +35,6 @@ namespace JakubKalinaLab7.Services
         /// <param name="id"></param>
         /// <returns></returns>
         bool Delete(int id);
-
+        Pizza Get(string id);
     }
 }
