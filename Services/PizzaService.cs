@@ -77,11 +77,11 @@ namespace JakubKalinaLab7.Services
             return true;
         }
 
-        public Pizza Get(string id)
+        public Pizza Get(int id)
         {
             foreach (var pizza in pizzas)
             {
-                if (pizza.Id == int.Parse(id))
+                if (pizza.Id == id)
                     return pizza;
             }
             return null;

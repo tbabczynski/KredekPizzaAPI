@@ -22,23 +22,47 @@ namespace JakubKalinaLab7.Controllers
         }
 
         /// <summary>
+        /// Wyświetla podpowiedź
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Instr()
+        {
+            return Ok("Try to look in the menu first");
+        }
+
+        /// <summary>
         /// Zwraca wszystkie pizze
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("menu")]
         public IActionResult Get()
         {
             var pizzas = _pizzaService.Get();
             return Ok(pizzas);
         }
 
+        /// <summary>
+        /// Zwraca pizzę o zadanym identyfikatorze lub informację o braku
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet, Route("order/{id}")]
         public IActionResult Order([FromRoute] string id)
         {
-            Pizza pizza = _pizzaService.Get(id);
+            Pizza pizza;
+            try
+            {
+                pizza = _pizzaService.Get(int.Parse(id));
+            }
+            catch (Exception)
+            {
+                return BadRequest("Id must be a number");
+            }
 
             if (pizza is null)
-                return BadRequest();
+                return NotFound("Nie ma takiej pizzy w menu");
             else
             {
                 return Ok(pizza);
