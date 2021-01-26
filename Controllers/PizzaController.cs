@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JakubKalinaLab7.Models;
+﻿using JakubKalinaLab7.Models;
 using JakubKalinaLab7.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace JakubKalinaLab7.Controllers
 {
@@ -13,7 +9,7 @@ namespace JakubKalinaLab7.Controllers
     [ApiController]
     public class PizzaController : ControllerBase
     {
-        private IPizzaService _pizzaService;
+        private readonly IPizzaService _pizzaService;
 
         // ctor + tab + tab
         public PizzaController(IPizzaService pizzaService)
@@ -28,7 +24,7 @@ namespace JakubKalinaLab7.Controllers
         [HttpGet]
         public IActionResult Instr()
         {
-            return Ok("Try to look in the menu first");
+            return base.Content(content: "Try to look in the <b>menu</b> first", contentType: "text/html");
         }
 
         /// <summary>
@@ -48,7 +44,7 @@ namespace JakubKalinaLab7.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, Route("order/{id}")]
+        [HttpGet, Route("order/{id}.{format?}")]
         public IActionResult Order([FromRoute] string id)
         {
             Pizza pizza;
@@ -75,7 +71,7 @@ namespace JakubKalinaLab7.Controllers
         /// <param name="pizza"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromBody]Pizza pizza)
+        public IActionResult Post([FromBody] Pizza pizza)
         {
             int id = _pizzaService.Post(pizza);
             return Ok(id);
@@ -89,9 +85,9 @@ namespace JakubKalinaLab7.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Put([FromBody]Pizza pizza, [FromRoute]int id)
+        public IActionResult Put([FromBody] Pizza pizza, [FromRoute] int id)
         {
-            if(id != pizza.Id)
+            if (id != pizza.Id)
             {
                 return Conflict("Podane Id są różne");
             }
@@ -99,7 +95,7 @@ namespace JakubKalinaLab7.Controllers
             {
                 var isUpdateSuccessful = _pizzaService.Put(pizza, id);
 
-                if(isUpdateSuccessful)
+                if (isUpdateSuccessful)
                 {
                     return NoContent();
                 }
@@ -112,11 +108,11 @@ namespace JakubKalinaLab7.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute]int id)
+        public IActionResult Delete([FromRoute] int id)
         {
             var result = _pizzaService.Delete(id);
 
-            if(result)
+            if (result)
             {
                 return NoContent();
             }
