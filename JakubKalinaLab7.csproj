@@ -5,5 +5,14 @@
     <UserSecretsId>668f2250-5db7-40d2-b6f5-2e137a98c75f</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\WeatherForecastController.cs" />
+    <Compile Remove="WeatherForecast.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSwag.AspNetCore" Version="13.10.1" />
+  </ItemGroup>
+
 
 </Project>

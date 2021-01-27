@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using JakubKalinaLab7.Services;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NSwag;
+using NSwag.Generation;
 
 namespace JakubKalinaLab7
 {
@@ -28,6 +31,7 @@ namespace JakubKalinaLab7
         {
             services.AddSingleton<IPizzaService, PizzaService>();
             services.AddControllers();
+            services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +47,9 @@ namespace JakubKalinaLab7
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseOpenApi()
+                .UseSwaggerUi3();
 
             app.UseEndpoints(endpoints =>
             {

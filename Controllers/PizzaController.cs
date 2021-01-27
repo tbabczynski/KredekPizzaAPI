@@ -2,6 +2,7 @@
 using JakubKalinaLab7.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.ComponentModel.Design;
 
 namespace JakubKalinaLab7.Controllers
 {
@@ -24,7 +25,7 @@ namespace JakubKalinaLab7.Controllers
         [HttpGet]
         public IActionResult Instr()
         {
-            return base.Content(content: "Try to look in the <b>menu</b> first", contentType: "text/html");
+            return base.Content("Try to look in the <a href=\"./pizza/menu\">menu</a> first or a <a href=\"../swagger\">swagger</a> documentation.", "text/html");
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace JakubKalinaLab7.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, Route("order/{id}.{format?}")]
+        [HttpGet, Route("order/{id}")]
         public IActionResult Order([FromRoute] string id)
         {
             Pizza pizza;
