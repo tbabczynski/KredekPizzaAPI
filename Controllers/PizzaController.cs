@@ -23,9 +23,11 @@ namespace JakubKalinaLab7.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("/")]
+        [Route("")]
         public IActionResult Instr()
         {
-            return base.Content("Try to look in the <a href=\"./pizza/menu\">menu</a> first or a <a href=\"../swagger\">swagger</a> documentation.", "text/html");
+            return base.Content("Try to look in the <a href=\"/api/pizza/menu\">menu</a> first or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
         }
 
         /// <summary>
