@@ -2,7 +2,6 @@
 using JakubKalinaLab7.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.ComponentModel.Design;
 
 namespace JakubKalinaLab7.Controllers
 {
@@ -25,6 +24,7 @@ namespace JakubKalinaLab7.Controllers
         [HttpGet]
         [Route("/")]
         [Route("")]
+        [Produces("text/html")]
         public IActionResult Instr()
         {
             return base.Content("Try to look in the <a href=\"/api/pizza/menu\">menu</a> first or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
