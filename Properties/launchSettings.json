@@ -20,7 +20,8 @@
     "JakubKalinaLab7": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/pizza",
+      // "launchUrl": "api/pizza",
+      "launchUrl": "index.html",
       "applicationUrl": "http://localhost:5010",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

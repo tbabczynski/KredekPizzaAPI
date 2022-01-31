@@ -6,6 +6,7 @@ using System;
 namespace JakubKalinaLab7.Controllers
 {
     [Route("api/[controller]")]
+//    [EnableCors("AllowPwr")]
     [ApiController]
     public class PizzaController : ControllerBase
     {
@@ -27,7 +28,7 @@ namespace JakubKalinaLab7.Controllers
         [Produces("text/html")]
         public IActionResult Instr()
         {
-            return base.Content("Try to look in the <a href=\"/api/pizza/menu\">menu</a> first or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
+            return base.Content("First try to look in the <a href=\"/api/pizza/menu\">menu</a> or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
         }
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace JakubKalinaLab7.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("menu")]
+        [Produces("application/json")]
         public IActionResult Get()
         {
             var pizzas = _pizzaService.Get();
@@ -47,7 +49,8 @@ namespace JakubKalinaLab7.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, Route("order/{id}")]
+        [HttpGet]
+        [Route("order/{id}")]
         public IActionResult Order([FromRoute] string id)
         {
             Pizza pizza;

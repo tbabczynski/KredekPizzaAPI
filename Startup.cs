@@ -24,6 +24,11 @@ namespace JakubKalinaLab7
             services.AddScoped<IPizzaService, PizzaService>();
             services.AddControllers();
             services.AddOpenApiDocument();
+            //services.AddSession();
+            // services.AddCors(options =>
+            //     options.AddPolicy("AllowPwr", builder =>
+            //         builder.WithOrigins("http://*.pwr.edu.pl","http://*.pl").
+            //             SetIsOriginAllowedToAllowWildcardSubdomains().AllowAnyHeader().AllowAnyMethod()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,7 +43,11 @@ namespace JakubKalinaLab7
 
             app.UseRouting();
 
+            app.UseStaticFiles();
+
             app.UseAuthorization();
+
+            // app.UseCors("AllowPwr");
 
             app.UseOpenApi()
                 .UseSwaggerUi3();
