@@ -23,21 +23,22 @@
 </head>
 
 <body>
+<button id="reset-btn" type="button" onclick="reset_menu()">↻</button>
   <h1>Pizzeria <span style="color: #ff6f00; font-size: 125%">KNK</span></h1>
-  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
-  <form action="javascript:show_menu(this.menuBut.value)" method="get">
-      <button type="submit" id="menuBut" value="/api/pizza/menu">Menu</button>
-      <button type="button">
-          <a id="swagger" href="/swagger/index.html#/Pizza">Documentation</a>
-      </button>
-      <button id="log-in-out" type="button" onclick="login_as_cook();">Pizzaiolo</button>
-  </form>
-<div id="Menu_div"></div>
-<div id="add-pizza-section" class="cook-only">
-    <button class="cook-only" type="button" onclick="add_pizza()">New Pizza</button>
-</div>
+    <script src="js/vendor/modernizr-3.11.2.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <form action="javascript:show_menu(this.menuBut.value)" method="get">
+        <button type="submit" id="menuBut" value="/api/pizza/menu">Menu</button>
+        <button type="button">
+            <a id="swagger" href="/swagger/index.html#/Pizza">Documentation</a>
+        </button>
+        <button id="log-in-out" type="button" onclick="login_as_cook();">Pizzaiolo</button>
+    </form>
+    <div id="Menu_div"></div>
+    <div id="add-pizza-section" class="cook-only">
+        <button class="cook-only" type="button" onclick="add_pizza()">New Pizza</button>
+    </div>
 </body>
 
 </html>

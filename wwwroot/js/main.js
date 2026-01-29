@@ -62,8 +62,8 @@ function show_menu(hrf) {
 }
 
 function login_as_cook() {
-    // Zapamiętaj stan "zalogowania" w localStorage
-    localStorage.setItem('isCook', 'true');
+    // Zapamiętaj stan "zalogowania" w sessionStorage
+    sessionStorage.setItem('isCook', 'true');
 
     // Dodaj klasę do body
     document.body.classList.add('logged-as-cook');
@@ -76,7 +76,7 @@ function login_as_cook() {
 
 // Przy ładowaniu strony sprawdź czy użytkownik jest "zalogowany"
 window.onload = function () {
-    if (localStorage.getItem('isCook') === 'true') {
+    if (sessionStorage.getItem('isCook') === 'true') {
         document.body.classList.add('logged-as-cook');
         var logInOutButton = document.getElementById('log-in-out');
         logInOutButton.textContent = 'Siesta';
@@ -90,7 +90,7 @@ window.onload = function () {
 
 // Opcjonalnie: funkcja wylogowania
 function logout() {
-    localStorage.removeItem('isCook');
+    sessionStorage.removeItem('isCook');
     document.body.classList.remove('logged-as-cook');
 
     var logInOutButton = document.getElementById('log-in-out');
@@ -108,7 +108,7 @@ function delete_pizza(pizza_id) {
     xhr.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 204) {
-                alert("Pizza usunięta pomyślnie.");
+                //alert("Pizza usunięta pomyślnie.");
                 document.getElementById("Menu_div").innerHTML = ""; // Wyczyść istniejącą zawartość
                 show_menu("/api/pizza/menu");
             } else {
@@ -155,5 +155,16 @@ function add_pizza() {
         }
     };
     xhr.send(JSON.stringify(pizzaData));
+}
+
+function reset_menu() {
+    // Wywołaj endpoint który czyści sesję
+    fetch('/api/pizza/reset', { method: 'POST' })
+        .then(() => {
+            document.getElementById("Menu_div").innerHTML = "";
+            logout();
+            //show_menu("/api/pizza/menu");
+            //alert("Menu zresetowane!");
+        });
 }
 

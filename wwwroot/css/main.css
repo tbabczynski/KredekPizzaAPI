@@ -357,6 +357,34 @@ button, .btn {
         background: linear-gradient(135deg, #7d858d 0%, #5a6268 100%);
     }
 
+/* Przycisk Reset - ma³y, niepozorny, prawy górny róg */
+#reset-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    font-size: 18px;
+    background-color: rgba(200, 200, 200, 0.3);
+    color: #666;
+    border: 1px solid rgba(150, 150, 150, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: none;
+}
+
+    #reset-btn:hover {
+        background-color: rgba(200, 200, 200, 0.6);
+        color: #333;
+        transform: rotate(180deg);
+    }
+
+    #reset-btn:active {
+        transform: rotate(180deg) scale(0.95);
+    }
+
 /* Style dla formularzy */
 form {
     text-align: center;

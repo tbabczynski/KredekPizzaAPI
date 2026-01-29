@@ -33,8 +33,9 @@ namespace JakubKalinaLab7.Controllers
         [Produces("text/html")]
         public IActionResult Instr()
         {
-            return base.Content("First try to look in the <a href=\"/api/pizza/menu\">menu</a>, the <a href=\"/index.html\">poor frontend</a>" 
-                                + " or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
+            return base.Content(
+                "First try to look in the <a href=\"/api/pizza/menu\">menu</a>, the <a href=\"/index.html\">poor frontend</a>"
+                + " or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
         }
 
         /// <summary>
@@ -132,5 +133,13 @@ namespace JakubKalinaLab7.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("reset")]
+        public IActionResult Reset()
+        {
+            HttpContext.Session.Remove("mypizzas");
+            return NoContent();
+
+        }
     }
 }
