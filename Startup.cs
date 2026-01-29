@@ -24,7 +24,9 @@ namespace JakubKalinaLab7
             services.AddScoped<IPizzaService, PizzaService>();
             services.AddControllers();
             services.AddOpenApiDocument();
-            //services.AddSession();
+            services.AddHttpContextAccessor();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             // services.AddCors(options =>
             //     options.AddPolicy("AllowPwr", builder =>
             //         builder.WithOrigins("http://*.pwr.edu.pl","http://*.pl").
@@ -40,6 +42,8 @@ namespace JakubKalinaLab7
             }
 
             //app.UseHttpsRedirection();
+
+            app.UseSession();
 
             app.UseRouting();
 

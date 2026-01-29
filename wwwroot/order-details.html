@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Order Details</title>
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div class="container">
+	<h1>Szczegóły zamówienia</h1>
+	<div id="order-details"></div>
+	<a href="index.html" class="btn btn-secondary">Back to Menu</a>
+</div>
+
+<script>// Pobierz parametr z URL
+		const urlParams = new URLSearchParams(window.location.search);
+		const orderId = urlParams.get('id');
+
+		if (orderId) {
+			// Wywołaj API
+			fetch(`/api/Pizza/order/${orderId}`)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Non capisco');
+					}
+					return response.json();
+				})
+				.then(data => {
+					// Wyświetl dane
+					document.getElementById('order-details').innerHTML = `
+						<div class="order-info">
+							<h2>Pizza: ${data.name}</h2>
+							<p><strong>ID:</strong> ${data.id}</p>
+							<p><strong>Cena:</strong> ${data.cost} PLN</p>
+							<p><strong>Opis:</strong> ${data.description}</p>
+						</div>
+					`;
+				})
+				.catch(error => {
+					document.getElementById('order-details').innerHTML =
+						`<p class="error">Błędne zamówienie: "${error.message}"</p>`;
+				});
+		} else {
+			document.getElementById('order-details').innerHTML =
+				'<p class="error">Brak kodu pizzy (ID)</p>';
+		}</script>
+</body>
+</html>

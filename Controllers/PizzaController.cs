@@ -5,14 +5,18 @@ using System;
 
 namespace JakubKalinaLab7.Controllers
 {
+    /// <summary>
+    /// Główny punkt wejścia
+    /// </summary>
     [Route("api/[controller]")]
-//    [EnableCors("AllowPwr")]
+    //[EnableCors("AllowPwr")]
     [ApiController]
     public class PizzaController : ControllerBase
     {
         private readonly IPizzaService _pizzaService;
 
         // ctor + tab + tab
+        /// <inheritdoc />
         public PizzaController(IPizzaService pizzaService)
         {
             _pizzaService = pizzaService;
@@ -21,14 +25,16 @@ namespace JakubKalinaLab7.Controllers
         /// <summary>
         /// Wyświetla podpowiedź
         /// </summary>
-        /// <returns></returns>
+        /// <returns>krótka instrukcja co można zrobić</returns>
         [HttpGet]
         [Route("/")]
         [Route("")]
+        [Route("help")]
         [Produces("text/html")]
         public IActionResult Instr()
         {
-            return base.Content("First try to look in the <a href=\"/api/pizza/menu\">menu</a> or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
+            return base.Content("First try to look in the <a href=\"/api/pizza/menu\">menu</a>, the <a href=\"/index.html\">poor frontend</a>" 
+                                + " or a <a href=\"/swagger\">swagger</a> documentation.", "text/html");
         }
 
         /// <summary>
@@ -60,15 +66,13 @@ namespace JakubKalinaLab7.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Id must be a number");
+                return BadRequest($"Id must be a number. Is: {id}");
             }
 
             if (pizza is null)
-                return NotFound("Nie ma takiej pizzy w menu");
-            else
-            {
-                return Ok(pizza);
-            }
+                return NotFound($"Nie ma takiej pizzy w menu (id: {id})");
+
+            return Ok(pizza);
         }
 
         /// <summary>
@@ -80,7 +84,7 @@ namespace JakubKalinaLab7.Controllers
         public IActionResult Post([FromBody] Pizza pizza)
         {
             int id = _pizzaService.Post(pizza);
-            return Ok(id);
+            return Created($"/api/pizza/{id}", pizza);
         }
 
         /// <summary>

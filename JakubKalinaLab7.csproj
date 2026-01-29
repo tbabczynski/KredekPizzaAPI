@@ -1,8 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>668f2250-5db7-40d2-b6f5-2e137a98c75f</UserSecretsId>
+    <StartupObject>JakubKalinaLab7.Program</StartupObject>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +30,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.10.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="swagger.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>swagger.json</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="swagger.json">
+      <Generator>NSwagCodeGenerator</Generator>
+      <LastGenOutput>swagger.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
