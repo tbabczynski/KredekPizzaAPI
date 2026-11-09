@@ -28,7 +28,7 @@ function display_menu(myArr) {
                                 role="button">${value.name}</a></td>
                             <td>${value.cost}</td>
                             <td>${value.description}</td>
-                            <td class="cook-only"><button class="btn btn-danger" onclick="delete_pizza(${value.id})">Eliminare</button></td>
+                            <td class="cook-only"><button class="btn btn-danger" onclick="open_delete_modal(${value.id})">Eliminare</button></td>
                         </tr>`
         );
     }).join("");
@@ -86,9 +86,14 @@ window.onload = function () {
         logInOutButton.textContent = 'Pizzaiolo';
         logInOutButton.onclick = login_as_cook;
     }
+    // Obsługa formularza dodawania pizzy
+    document.getElementById('add-pizza-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        submit_add_pizza();
+    });
 }
 
-// Opcjonalnie: funkcja wylogowania
+// funkcja wylogowania
 function logout() {
     sessionStorage.removeItem('isCook');
     document.body.classList.remove('logged-as-cook');
@@ -96,65 +101,6 @@ function logout() {
     var logInOutButton = document.getElementById('log-in-out');
     logInOutButton.textContent = 'Pizzaiolo';
     logInOutButton.onclick = login_as_cook;
-}
-
-function delete_pizza(pizza_id) {
-    var confirmation = confirm("Chcesz wyrzucić taką świetną pizzę?");
-    if (!confirmation) {
-        return; // Użytkownik anulował akcję
-    }
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", `/api/pizza/${pizza_id}`, true);
-    xhr.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            if (this.status === 204) {
-                //alert("Pizza usunięta pomyślnie.");
-                document.getElementById("Menu_div").innerHTML = ""; // Wyczyść istniejącą zawartość
-                show_menu("/api/pizza/menu");
-            } else {
-                alert("Błąd podczas usuwania pizzy: " + this.statusText);
-            }
-        }
-    };
-    xhr.send();
-}
-
-function add_pizza() {
-    var name = prompt("Podaj nazwę pizzy:");
-    if (!name) {
-        alert("Nazwa pizzy jest wymagana.");
-        return;
-    }
-    var cost = prompt("Podaj koszt pizzy:");
-    if (!cost || isNaN(cost)) {
-        alert("Koszt pizzy musi być liczbą.");
-        return;
-    }
-    var description = prompt("Podaj opis pizzy:");
-    if (!description) {
-        alert("Opis pizzy jest wymagany.");
-        return;
-    }
-    var pizzaData = {
-        name: name,
-        cost: parseFloat(cost),
-        description: description
-    };
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/pizza", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            if (this.status === 201) {
-                alert("Pizza dodana pomyślnie.");
-                document.getElementById("Menu_div").innerHTML = ""; // Wyczyść istniejącą zawartość
-                show_menu("/api/pizza/menu");
-            } else {
-                alert("Błąd podczas dodawania pizzy: " + this.statusText);
-            }
-        }
-    };
-    xhr.send(JSON.stringify(pizzaData));
 }
 
 function reset_menu() {
@@ -167,4 +113,91 @@ function reset_menu() {
             //alert("Menu zresetowane!");
         });
 }
+
+// === MODAL DO DODAWANIA PIZZY ===
+
+function open_add_pizza_modal() {
+    document.getElementById('add-pizza-modal').style.display = 'block';
+    document.getElementById('pizza-name').focus();
+}
+
+function close_add_pizza_modal() {
+    document.getElementById('add-pizza-modal').style.display = 'none';
+    document.getElementById('add-pizza-form').reset();
+}
+
+function submit_add_pizza() {
+    var name = document.getElementById('pizza-name').value;
+    var cost = parseFloat(document.getElementById('pizza-cost').value);
+    var description = document.getElementById('pizza-description').value;
+
+    var pizzaData = {
+        name: name,
+        cost: cost,
+        description: description
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/pizza", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200 || this.status === 201) {
+                close_add_pizza_modal();
+                document.getElementById("Menu_div").innerHTML = "";
+                show_menu("/api/pizza/menu");
+            } else {
+                alert("Błąd podczas dodawania pizzy: " + this.statusText);
+            }
+        }
+    };
+    xhr.send(JSON.stringify(pizzaData));
+}
+
+// === MODAL DO USUWANIA PIZZY ===
+
+var pizzaToDelete = null;
+
+function open_delete_modal(pizza_id) {
+    pizzaToDelete = pizza_id;
+    document.getElementById('delete-confirm-modal').style.display = 'block';
+}
+
+function close_delete_modal() {
+    document.getElementById('delete-confirm-modal').style.display = 'none';
+    pizzaToDelete = null;
+}
+
+function confirm_delete() {
+    if (pizzaToDelete === null) return;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", `/api/pizza/${pizzaToDelete}`, true);
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 204) {
+                close_delete_modal();
+                document.getElementById("Menu_div").innerHTML = "";
+                show_menu("/api/pizza/menu");
+            } else {
+                alert("Błąd podczas usuwania pizzy: " + this.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+
+// Zamknij modal po kliknięciu poza nim
+window.onclick = function (event) {
+    var addModal = document.getElementById('add-pizza-modal');
+    var deleteModal = document.getElementById('delete-confirm-modal');
+    if (event.target == addModal) {
+        close_add_pizza_modal();
+    }
+    if (event.target == deleteModal) {
+        close_delete_modal();
+    }
+}
+
+// === KONIEC MODALI ===
 

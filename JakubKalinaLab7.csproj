@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>668f2250-5db7-40d2-b6f5-2e137a98c75f</UserSecretsId>
     <StartupObject>JakubKalinaLab7.Program</StartupObject>
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
