@@ -6,10 +6,17 @@ using Microsoft.AspNetCore.Http;
 
 namespace JakubKalinaLab7.Services
 {
+    /// <summary>
+    /// Serwis do zarządzania pizzami
+    /// </summary>
     public class PizzaService : IPizzaService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        /// <summary>
+        /// Konstruktor serwisu do zarządzania pizzami
+        /// </summary>
+        /// <param name="httpContextAccessor"></param>
         public PizzaService(IHttpContextAccessor httpContextAccessor)
         {
             this._httpContextAccessor = httpContextAccessor;
@@ -47,11 +54,20 @@ namespace JakubKalinaLab7.Services
             return pizzas;
         }
 
+        /// <summary>
+        /// Zwraca wszystkie pizze
+        /// </summary>
+        /// <returns></returns>
         public List<Pizza> Get()
         {
             return GetOrCreatePizzasFromSession();
         }
 
+        /// <summary>
+        /// Dodaje nową pizzę
+        /// </summary>
+        /// <param name="pizza"></param>
+        /// <returns></returns>
         public int Post(Pizza pizza)
         {
             int id;
@@ -74,6 +90,12 @@ namespace JakubKalinaLab7.Services
             return id;
         }
 
+        /// <summary>
+        /// Edytuje wskazaną pizzę
+        /// </summary>
+        /// <param name="pizza"></param>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public bool Put(Pizza pizza, int Id)
         {
             var pizzas = GetOrCreatePizzasFromSession();
@@ -94,6 +116,11 @@ namespace JakubKalinaLab7.Services
             return true;
         }
 
+        /// <summary>
+        /// Usuwa pizzę o wskazanym Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool Delete(int id)
         {
             var pizzas = GetOrCreatePizzasFromSession();
@@ -110,6 +137,11 @@ namespace JakubKalinaLab7.Services
             return true;
         }
 
+        /// <summary>
+        /// Pobiera pizzę o wskazanym Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Pizza Get(int id)
         {
             foreach (var pizza in GetOrCreatePizzasFromSession())

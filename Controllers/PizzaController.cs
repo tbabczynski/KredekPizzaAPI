@@ -109,6 +109,11 @@ namespace JakubKalinaLab7.Controllers
             }
         }
 
+        /// <summary>
+        /// Usuwa pizzę o zadanym identyfikatorze
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{id}")]
         public IActionResult Delete([FromRoute] int id)
@@ -125,6 +130,10 @@ namespace JakubKalinaLab7.Controllers
             }
         }
 
+        /// <summary>
+        /// Resetuje listę pizz w menu (do dwóch pizz)
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("reset")]
         public IActionResult Reset()

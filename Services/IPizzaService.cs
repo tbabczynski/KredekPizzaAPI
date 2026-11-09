@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace JakubKalinaLab7.Services
 {
+    /// <summary>
+    /// Interfejs dla serwisu pizz
+    /// </summary>
     public interface IPizzaService
     {
         /// <summary>
