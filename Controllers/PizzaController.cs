@@ -57,18 +57,10 @@ namespace JakubKalinaLab7.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("order/{id}")]
-        public IActionResult Order([FromRoute] string id)
+        [Route("order/{id:int}")]
+        public IActionResult Order([FromRoute] int id)
         {
-            Pizza pizza;
-            try
-            {
-                pizza = _pizzaService.Get(int.Parse(id));
-            }
-            catch (Exception)
-            {
-                return BadRequest($"Id must be a number. Is: {id}");
-            }
+            var pizza = _pizzaService.Get(id);
 
             if (pizza is null)
                 return NotFound($"Nie ma takiej pizzy w menu (id: {id})");

@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".github\copilot-instructions.md" />
     <None Include="wwwroot\doc\css.md" />
     <None Include="wwwroot\doc\extend.md" />
     <None Include="wwwroot\doc\faq.md" />

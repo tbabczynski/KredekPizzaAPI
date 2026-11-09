@@ -126,6 +126,36 @@ function close_add_pizza_modal() {
     document.getElementById('add-pizza-form').reset();
 }
 
+function get_api_error_message(xhr) {
+    if (!xhr || !xhr.responseText) {
+        return xhr && xhr.statusText ? xhr.statusText : 'Nieznany błąd.';
+    }
+
+    try {
+        var payload = JSON.parse(xhr.responseText);
+        var details = [];
+
+        if (payload.title) {
+            details.push(payload.title);
+        }
+
+        if (payload.errors) {
+            Object.keys(payload.errors).forEach(function (field) {
+                payload.errors[field].forEach(function (message) {
+                    details.push(field + ': ' + message);
+                });
+            });
+        }
+
+        if (details.length > 0) {
+            return details.join('\n');
+        }
+    } catch (e) {
+    }
+
+    return xhr.statusText || 'Nieznany błąd.';
+}
+
 function submit_add_pizza() {
     var name = document.getElementById('pizza-name').value;
     var cost = parseFloat(document.getElementById('pizza-cost').value);
@@ -147,7 +177,7 @@ function submit_add_pizza() {
                 document.getElementById("Menu_div").innerHTML = "";
                 show_menu("/api/pizza/menu");
             } else {
-                alert("Błąd podczas dodawania pizzy: " + this.statusText);
+                alert("Błąd podczas dodawania pizzy:\n" + get_api_error_message(this));
             }
         }
     };

@@ -1,9 +1,13 @@
 using JakubKalinaLab7.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace JakubKalinaLab7
 {
@@ -22,7 +26,25 @@ namespace JakubKalinaLab7
             //services.AddSingleton<IPizzaService, PizzaService>();
             //services.AddTransient<IPizzaService, PizzaService>(); // wskazany
             services.AddScoped<IPizzaService, PizzaService>();
-            services.AddControllers();
+            services.AddProblemDetails();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetails = new ValidationProblemDetails(context.ModelState)
+                        {
+                            Status = StatusCodes.Status400BadRequest,
+                            Title = "Błędne dane wejściowe.",
+                            Detail = "Popraw pola formularza i spróbuj ponownie.",
+                            Instance = context.HttpContext.Request.Path
+                        };
+
+                        var result = new BadRequestObjectResult(problemDetails);
+                        result.ContentTypes.Add("application/problem+json");
+                        return result;
+                    };
+                });
             services.AddOpenApiDocument();
             services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
@@ -39,6 +61,35 @@ namespace JakubKalinaLab7
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(errorApp =>
+                {
+                    errorApp.Run(async context =>
+                    {
+                        var exceptionFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                        var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
+
+                        if (exceptionFeature?.Error != null)
+                        {
+                            logger.LogError(exceptionFeature.Error, "Unhandled exception for request {Path}", context.Request.Path);
+                        }
+
+                        context.Response.StatusCode = 500;
+                        context.Response.ContentType = "application/problem+json";
+
+                        var problemDetails = new ProblemDetails
+                        {
+                            Status = 500,
+                            Title = "Wystąpił nieoczekiwany błąd.",
+                            Detail = "Spróbuj ponownie później.",
+                            Instance = context.Request.Path
+                        };
+
+                        await context.Response.WriteAsJsonAsync(problemDetails);
+                    });
+                });
             }
 
             //app.UseHttpsRedirection();
